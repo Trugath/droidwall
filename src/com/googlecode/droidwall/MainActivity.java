@@ -23,6 +23,7 @@
 
 package com.googlecode.droidwall;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -35,7 +36,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -64,7 +64,7 @@ import java.util.Comparator;
  * Main application activity.
  * This is the screen displayed when you open the application
  */
-public class MainActivity extends FragmentActivity implements OnCheckedChangeListener, OnClickListener {
+public class MainActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
 
     // Menu options
 	private static final int MENU_DISABLE	= 0;

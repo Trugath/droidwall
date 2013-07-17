@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Firewall</string>
+    <string name="firewall">Firewall</string>
     <string name="title_enabled">Firewall</string>
     <string name="title_disabled">Firewall (disabled)</string>
     <string name="showrules">Show rules</string>

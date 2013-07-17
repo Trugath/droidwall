@@ -39,11 +39,11 @@
     <string name="mode_header">Mode: %s</string>
     <string name="mode_whitelist">White list (allow selected)</string>
     <string name="mode_blacklist">Black list (block selected)</string>
-    <string name="toast_bin_installed">DroidWall: Binary files installed!</string>
-    <string name="toast_enabled">DroidWall: Firewall enabled!</string>
-    <string name="toast_error_enabling">DroidWall: Error enabling firewall!</string>
-    <string name="toast_disabled">DroidWall: Firewall disabled!</string>
-    <string name="toast_error_disabling">DroidWall: Error disabling firewall!</string>
+    <string name="toast_bin_installed">Binary files installed</string>
+    <string name="toast_enabled">Firewall Enabled</string>
+    <string name="toast_error_enabling">Error enabling firewall</string>
+    <string name="toast_disabled">Firewall disabled</string>
+    <string name="toast_error_disabling">Error disabling firewall</string>
     <string name="set_custom_script">Set custom script</string>
     <string name="custom_script_defined">Custom script defined</string>
     <string name="custom_script_removed">Custom script removed</string>

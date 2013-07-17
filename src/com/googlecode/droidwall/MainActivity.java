@@ -23,9 +23,6 @@
 
 package com.googlecode.droidwall;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -59,6 +56,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.droidwall.Api.DroidApp;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Main application activity.
@@ -263,12 +263,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 				if (o1.firstseem != o2.firstseem) {
 					return (o1.firstseem ? -1 : 1);
 				}
-				if ((o1.selected_wifi|o1.selected_3g) == (o2.selected_wifi|o2.selected_3g)) {
-					return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0], o2.names[0]);
-				}
-				if (o1.selected_wifi || o1.selected_3g) return -1;
-				return 1;
-			}
+                if ((o1.selected_vpn | o1.selected_wifi | o1.selected_3g) == (o2.selected_vpn | o2.selected_wifi | o2.selected_3g)) {
+                    return String.CASE_INSENSITIVE_ORDER.compare(o1.names[0], o2.names[0]);
+                }
+                if (o1.selected_vpn || o1.selected_wifi || o1.selected_3g) return -1;
+                return 1;
+            }
         });
         final LayoutInflater inflater = getLayoutInflater();
 		final ListAdapter adapter = new ArrayAdapter<DroidApp>(this,R.layout.listitem,R.id.itemtext,apps) {
@@ -280,12 +280,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
         			convertView = inflater.inflate(R.layout.listitem, parent, false);
             		Log.d("DroidWall", ">> inflate("+convertView+")");
        				entry = new ListEntry();
-       				entry.box_wifi = (CheckBox) convertView.findViewById(R.id.itemcheck_wifi);
-       				entry.box_3g = (CheckBox) convertView.findViewById(R.id.itemcheck_3g);
+                    entry.box_vpn = (CheckBox) convertView.findViewById(R.id.itemcheck_vpn);
+                    entry.box_wifi = (CheckBox) convertView.findViewById(R.id.itemcheck_wifi);
+                    entry.box_3g = (CheckBox) convertView.findViewById(R.id.itemcheck_3g);
        				entry.text = (TextView) convertView.findViewById(R.id.itemtext);
        				entry.icon = (ImageView) convertView.findViewById(R.id.itemicon);
-       				entry.box_wifi.setOnCheckedChangeListener(MainActivity.this);
-       				entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
+                    entry.box_vpn.setOnCheckedChangeListener(MainActivity.this);
+                    entry.box_wifi.setOnCheckedChangeListener(MainActivity.this);
+                    entry.box_3g.setOnCheckedChangeListener(MainActivity.this);
        				convertView.setTag(entry);
         		} else {
         			// Convert an existing view
@@ -299,8 +301,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
         			// this icon has not been loaded yet - load it on a separated thread
             		new LoadIconTask().execute(app, getPackageManager(), convertView);
         		}
-        		final CheckBox box_wifi = entry.box_wifi;
-        		box_wifi.setTag(app);
+                final CheckBox box_vpn = entry.box_vpn;
+                box_vpn.setTag(app);
+                box_vpn.setChecked(app.selected_vpn);
+                final CheckBox box_wifi = entry.box_wifi;
+                box_wifi.setTag(app);
         		box_wifi.setChecked(app.selected_wifi);
         		final CheckBox box_3g = entry.box_3g;
         		box_3g.setTag(app);
@@ -561,8 +566,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 		final DroidApp app = (DroidApp) buttonView.getTag();
 		if (app != null) {
 			switch (buttonView.getId()) {
-				case R.id.itemcheck_wifi:
-					if (app.selected_wifi != isChecked) {
+                case R.id.itemcheck_vpn:
+                    if (app.selected_vpn != isChecked) {
+                        app.selected_vpn = isChecked;
+                        this.dirty = true;
+                    }
+                    break;
+                case R.id.itemcheck_wifi:
+                    if (app.selected_wifi != isChecked) {
 						app.selected_wifi = isChecked;
 						this.dirty = true;
 					}
@@ -651,8 +662,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener, O
 	 * Entry representing an application in the screen
 	 */
 	private static class ListEntry {
-		private CheckBox box_wifi;
-		private CheckBox box_3g;
+        private CheckBox box_vpn;
+        private CheckBox box_wifi;
+        private CheckBox box_3g;
 		private TextView text;
 		private ImageView icon;
 		private DroidApp app;
